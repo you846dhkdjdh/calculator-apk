@@ -1,0 +1,33 @@
+{
+  "name": "calculator-apk",
+  "version": "1.0.0",
+  "description": "Calculator by Yusuf - Advanced Scientific Calculator",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "cap": "cap",
+    "cap:add:android": "cap add android",
+    "cap:open:android": "cap open android",
+    "cap:copy": "cap copy",
+    "cap:sync": "cap sync",
+    "cap:build:android": "npm run build && cap copy && cap build android",
+    "build:apk": "npm run build && cap copy android && npx @capacitor/cli build android --keystorepath ./android.keystore --keystoreAlias calculator --keystorePassword 123456 --packageName com.yusufcalculator.app"
+  },
+  "dependencies": {
+    "@capacitor/app": "latest",
+    "@capacitor/core": "latest",
+    "@capacitor/android": "latest",
+    "@capacitor/browser": "latest",
+    "@capacitor/device": "latest",
+    "@capacitor/splash-screen": "latest",
+    "@capacitor/status-bar": "latest"
+  },
+  "devDependencies": {
+    "vite": "latest",
+    "tailwindcss": "latest",
+    "postcss": "latest",
+    "autoprefixer": "latest"
+  }
+}
