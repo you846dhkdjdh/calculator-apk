@@ -1,6 +1,6 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>Calculator by Yusuf — آلة حاسبة علمية متقدمة</title>
@@ -17,25 +17,246 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-TileColor" content="#0B0E11" />
     
-    <!-- Icons & Manifest -->
-    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
-    <link rel="apple-touch-icon" href="/icon.svg" />
-    <link rel="manifest" href="/manifest.json" />
-
+    <!-- Capacitor -->
+    <script src="capacitor.js"></script>
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" crossorigin href="/style.css">
-  </head>
-  <body class="bg-[#0B0E11] text-[#EDEFF2] antialiased selection:bg-[#FFB454]/30 selection:text-[#FFB454] min-h-screen overscroll-none select-none">
-    <div id="root">
-      <div class="flex items-center justify-center min-h-screen">
-        <div class="text-center">
-          <h1 class="text-4xl font-bold mb-4">آلة حاسبة يوسف</h1>
-          <p class="text-lg text-gray-400">جاري التحميل...</p>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;1,400&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Tajawal', 'Cairo', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0B0E11 0%, #151A20 100%);
+            color: #EDEFF2;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+        
+        .calculator-container {
+            background: linear-gradient(180deg, #151A20 0%, #0B0E11 100%);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid #2A323C;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #FFB454;
+            text-shadow: 0 0 20px rgba(255, 180, 84, 0.3);
+        }
+        
+        .display-section {
+            margin-bottom: 20px;
+        }
+        
+        #calc-display {
+            width: 100%;
+            padding: 20px;
+            font-size: 28px;
+            font-family: 'JetBrains Mono', monospace;
+            background: #0B0E11;
+            border: 2px solid #2A323C;
+            border-radius: 12px;
+            color: #FFB454;
+            text-align: right;
+            direction: ltr;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        button {
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Tajawal', sans-serif;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .btn-number {
+            background: #1E252D;
+            color: #EDEFF2;
+            border: 1px solid #2A323C;
+        }
+        
+        .btn-number:active {
+            background: #262E38;
+            transform: scale(0.95);
+        }
+        
+        .btn-operation {
+            background: #242D38;
+            color: #FFB454;
+            border: 1px solid #2A323C;
+        }
+        
+        .btn-operation:active {
+            background: #2A3642;
+            transform: scale(0.95);
+        }
+        
+        .btn-equals {
+            background: linear-gradient(135deg, #FFB454 0%, #FFA500 100%);
+            color: #0B0E11;
+            font-weight: 700;
+            border: none;
+            grid-column: span 2;
+        }
+        
+        .btn-equals:active {
+            transform: scale(0.95);
+        }
+        
+        .btn-clear {
+            background: #C2185B;
+            color: #FFF;
+            grid-column: span 2;
+        }
+        
+        .btn-clear:active {
+            background: #D32F7F;
+            transform: scale(0.95);
+        }
+        
+        .btn-function {
+            background: #192028;
+            color: #5EEAD4;
+            border: 1px solid #2A323C;
+            font-size: 14px;
+        }
+        
+        .btn-function:active {
+            background: #1F3A3F;
+            transform: scale(0.95);
+        }
+        
+        .advanced-section {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .history-section {
+            background: #0B0E11;
+            border: 1px solid #2A323C;
+            border-radius: 10px;
+            padding: 15px;
+            max-height: 150px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        
+        .history-title {
+            color: #5EEAD4;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        
+        .history-item {
+            color: #8891A0;
+            font-size: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            padding: 5px;
+            border-bottom: 1px solid #1E252D;
+        }
+        
+        .history-item:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-container">
+        <div class="header">
+            <h1>🧮 آلة حاسبة يوسف</h1>
         </div>
-      </div>
+        
+        <div class="display-section">
+            <input type="text" id="calc-display" value="0" readonly>
+        </div>
+        
+        <div class="advanced-section">
+            <button class="btn-function" onclick="sin()">sin</button>
+            <button class="btn-function" onclick="cos()">cos</button>
+            <button class="btn-function" onclick="tan()">tan</button>
+            <button class="btn-function" onclick="pi()">π</button>
+            
+            <button class="btn-function" onclick="sqrt()">√</button>
+            <button class="btn-function" onclick="square()">x²</button>
+            <button class="btn-function" onclick="reciprocal()">1/x</button>
+            <button class="btn-function" onclick="euler()">e</button>
+            
+            <button class="btn-function" onclick="log()">log</button>
+            <button class="btn-function" onclick="ln()">ln</button>
+            <button class="btn-function" onclick="percentage()">%</button>
+            <button class="btn-function" onclick="backspace()">←</button>
+        </div>
+        
+        <div class="button-grid">
+            <button class="btn-clear" onclick="clear()">C</button>
+            <button class="btn-operation" onclick="appendOperation('÷')">÷</button>
+            <button class="btn-operation" onclick="appendOperation('×')">×</button>
+            <button class="btn-operation" onclick="appendOperation('^')">^</button>
+            
+            <button class="btn-number" onclick="appendNumber('7')">7</button>
+            <button class="btn-number" onclick="appendNumber('8')">8</button>
+            <button class="btn-number" onclick="appendNumber('9')">9</button>
+            <button class="btn-operation" onclick="appendOperation('-')">−</button>
+            
+            <button class="btn-number" onclick="appendNumber('4')">4</button>
+            <button class="btn-number" onclick="appendNumber('5')">5</button>
+            <button class="btn-number" onclick="appendNumber('6')">6</button>
+            <button class="btn-operation" onclick="appendOperation('+')">+</button>
+            
+            <button class="btn-number" onclick="appendNumber('1')">1</button>
+            <button class="btn-number" onclick="appendNumber('2')">2</button>
+            <button class="btn-number" onclick="appendNumber('3')">3</button>
+            <button class="btn-operation" onclick="appendNumber('.')">.</button>
+            
+            <button class="btn-number" onclick="appendNumber('0')" style="grid-column: span 2;">0</button>
+            <button class="btn-equals" onclick="equals()">الحساب</button>
+        </div>
+        
+        <div class="history-section">
+            <div class="history-title">السجل</div>
+            <div id="history-list"></div>
+        </div>
     </div>
-    <script type="module" src="/main.ts"></script>
-  </body>
+    
+    <script type="module" src="main.ts"></script>
+</body>
 </html>
