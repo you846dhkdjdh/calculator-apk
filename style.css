@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@layer base {
+  :root, [data-theme="dark"] {
+    --font-ui: 'Tajawal', 'Cairo', system-ui, -apple-system, sans-serif;
+    --font-lcd: 'Space Mono', 'JetBrains Mono', 'Courier New', monospace;
+    --font-data: 'JetBrains Mono', 'Space Mono', monospace;
+
+    --bg-canvas: #0B0E11;
+    --bg-panel: #151A20;
+    --bg-card: #1E252D;
+    --bg-card-hover: #262E38;
+    --border-ui: #2A323C;
+    --border-subtle: #1E252D;
+    --text-main: #EDEFF2;
+    --text-muted: #8891A0;
+    --text-faint: #565F6C;
+    --bg-key-digit: #1E252D;
+    --bg-key-op: #242D38;
+    --bg-key-fn: #192028;
+    --accent-amber: #FFB454;
+    --accent-teal: #5EEAD4;
+  }
+
+  body {
+    font-family: var(--font-ui);
+    background-color: var(--bg-canvas);
+    color: var(--text-main);
+    background-attachment: fixed;
+    margin: 0;
+    min-height: 100vh;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+}
+
+button {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.font-lcd {
+  font-family: 'Space Mono', 'JetBrains Mono', 'Courier New', monospace;
+}
+
+.font-data {
+  font-family: 'JetBrains Mono', 'Space Mono', monospace;
+}
+
+.font-ui {
+  font-family: 'Tajawal', 'Cairo', system-ui, sans-serif;
+}
+
+.lcd-scanline {
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.012) 0px,
+    rgba(255, 255, 255, 0.012) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
