@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Display Settings">
+        <CheckBoxPreference
+            android:key="dark_mode"
+            android:title="Dark Mode"
+            android:defaultValue="true" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Calculator Settings">
+        <ListPreference
+            android:key="angle_mode"
+            android:title="Angle Mode"
+            android:entries="@array/angle_modes"
+            android:entryValues="@array/angle_mode_values"
+            android:defaultValue="degrees" />
+    </PreferenceCategory>
+</PreferenceScreen>
